@@ -16,13 +16,13 @@ matrix_t* matrix_get(size_t m, size_t n) {
 	if (m <= 0 || n <= 0)
 		return NULL;
 	// Создание матрицы
-	matrix_t* matrix = malloc(sizeof(matrix_t*));
+	matrix_t* matrix = malloc(sizeof(matrix_t*) + sizeof(double**) + sizeof(double*) * m * n);
 	matrix->m = m;
 	matrix->n = n;
 	// Выделение памяти под массив данных
-	matrix->values = calloc(m, sizeof(double*));
+	matrix->values = (double**) calloc(m, sizeof(double*));
 	for (int i = 0; i < m; i++)
-		matrix->values[i] = calloc(n, sizeof(double));
+		matrix->values[i] = (double*) calloc(n, sizeof(double));
 	return matrix;
 }
 
@@ -50,12 +50,14 @@ matrix_t* matrix_create(double** values, size_t m, size_t n) {
 	return matrix;
 }
 
-void matrix_show(matrix_t* matrix, const char* fmt) {
+void matrix_show(matrix_t* matrix, const char* fmt, const char* name) {
+	// Вывести название матрицы
+	printf("%s =", name);
 	// Определить формат, если не задан
 	if (!fmt) fmt = "%8.4g";
 	// Вывести матрицу
 	for (int i = 0; i < matrix->m; i++) {
-		printf(i ? "   " : " [ ");
+		printf(i ? "      " : " [ ");
 		for (int j = 0; j < matrix->n; j++) {
 			printf(fmt, matrix->values[i][j]);
 			printf(j < matrix->n - 1 ? "  " : i == matrix->n ? " ]\n" : "\n");

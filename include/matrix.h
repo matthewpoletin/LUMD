@@ -62,7 +62,7 @@ matrix_t* matrix_multiply(matrix_t* a, matrix_t* b);
  * @param matrix Матрица
  * @param fmt Формат
  */
-void matrix_show(matrix_t* matrix, const char* fmt);
+void matrix_show(matrix_t* matrix, const char* fmt, const char* name);
 
 /**
  * Создание матрицы случайных значений
