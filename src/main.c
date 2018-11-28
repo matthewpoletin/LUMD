@@ -10,6 +10,8 @@ int main(int argc, char** argv) {
 	matrix_t* matrix = matrix_random(5, 4, 0.0, 10.0);
 	// Вывод матрицы на экран
 	matrix_show(matrix, 0);
+	// Очистка значений
+	matrix_delete(matrix);
 
 	return 0;
 }

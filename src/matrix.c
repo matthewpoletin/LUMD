@@ -5,9 +5,6 @@
 
 #include "matrix.h"
 
-// Обмен двух значений
-#define _swap(x, y) { typeof(x) tmp = x; x = y; y = tmp; }
-
 /**
  * Создание матрицы заданных размеров
  * @param m Размер m
@@ -79,6 +76,10 @@ matrix_t* matrix_multiply(matrix_t* a, matrix_t* b) {
 }
 
 void matrix_delete(matrix_t* matrix) {
+	// Очистка строк матрицы
+	for (int i = 0; i < matrix->m; i++)
+		free(matrix->values[i]);
+	// Очистка матрицы
 	free(matrix);
 }
 
