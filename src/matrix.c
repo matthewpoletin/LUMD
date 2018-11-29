@@ -2,6 +2,8 @@
 #include <printf.h>
 #include <math.h>
 #include <memory.h>
+#include <matrix.h>
+
 
 #include "matrix.h"
 
@@ -41,16 +43,21 @@ matrix_t* matrix_new(size_t m, size_t n) {
 	return matrix_zero(matrix);
 }
 
-matrix_t* matrix_create(double** values, size_t m, size_t n) {
+matrix_t* matrix_create(size_t m, size_t n, double values[][n]) {
 	// Создание матрицы
 	matrix_t* matrix = matrix_get(m, n);
 	if (matrix == NULL) return NULL;
 	// Заполнение значений
-	memcpy(values, matrix->values, sizeof(double[3][3]));
+	// TODO: Починить memcpy
+//	memcpy(matrix->values, values, sizeof(values[m][n]));
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+			matrix->values[i][j] = values[i][j];
+	// Возврат результата
 	return matrix;
 }
 
-void matrix_show(matrix_t* matrix, const char* fmt, const char* name) {
+void matrix_show(matrix_t* matrix, const char* name, const char* fmt) {
 	// Вывести название матрицы
 	printf("%s =", name);
 	// Определить формат, если не задан
@@ -60,7 +67,7 @@ void matrix_show(matrix_t* matrix, const char* fmt, const char* name) {
 		printf(i ? "      " : " [ ");
 		for (int j = 0; j < matrix->n; j++) {
 			printf(fmt, matrix->values[i][j]);
-			printf(j < matrix->n - 1 ? "  " : i == matrix->n ? " ]\n" : "\n");
+			printf(j < matrix->n - 1 ? "  " : i == matrix->n - 1 ? " ]\n" : "\n");
 		}
 	}
 }
@@ -93,5 +100,15 @@ matrix_t* matrix_random(size_t m, size_t n, double min, double max) {
 	for (int i = 0; i < matrix->m; i++)
 		for (int j = 0; j < matrix->m; j++)
 			matrix->values[i][j] = min + ((max - min) * rand() / RAND_MAX);
+	return matrix;
+}
+
+matrix_t* matrix_identity(size_t m) {
+	// Создание матрицы квадратной матрицы
+	matrix_t* matrix = matrix_get(m, m);
+	if (!matrix) return NULL;
+	// Заполнение значениями
+	for (int i = 0; i < matrix->m; i++)
+			matrix->values[i][i] = 1.0;
 	return matrix;
 }

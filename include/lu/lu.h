@@ -8,9 +8,9 @@
  */
 typedef struct {
 	// Матрица L
-	matrix_t L;
+	matrix_t* L;
 	// Матрица U
-	matrix_t U;
+	matrix_t* U;
 } LU_t;
 
 #endif //LUDM_LU_H

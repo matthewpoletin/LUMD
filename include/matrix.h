@@ -34,7 +34,7 @@ matrix_t* matrix_new(size_t m, size_t n);
  * @param n Размер n
  * @return Созданная матрица
  */
-matrix_t* matrix_create(double** values, size_t m, size_t n);
+matrix_t* matrix_create(size_t m, size_t n, double values[][n]);
 
 /**
  * Копирование существующей матрицы
@@ -62,7 +62,7 @@ matrix_t* matrix_multiply(matrix_t* a, matrix_t* b);
  * @param matrix Матрица
  * @param fmt Формат
  */
-void matrix_show(matrix_t* matrix, const char* fmt, const char* name);
+void matrix_show(matrix_t* matrix, const char* name, const char* fmt);
 
 /**
  * Создание матрицы случайных значений
@@ -73,5 +73,13 @@ void matrix_show(matrix_t* matrix, const char* fmt, const char* name);
  * @return Матрица случайных значений
  */
 matrix_t* matrix_random(size_t m, size_t n, double min, double max);
+
+/**
+ * Создание единичной матрицы
+ * @param m Размер m
+ * @param n Размер n
+ * @return Единичная матрица
+ */
+matrix_t* matrix_identity(size_t m);
 
 #endif //LUDM_MATRIX_H
