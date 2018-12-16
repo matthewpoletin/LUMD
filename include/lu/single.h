@@ -12,9 +12,9 @@
 
 /**
  * Однопоточное LU разложение матрицы
- * @param A Матрица для разложения
+ * @param matrix Матрица для разложения
  * @return Резултат LU разложения
  */
-LU_t single_LU(matrix_t* A);
+LU_t single_LU(matrix_t* matrix);
 
 #endif //LUDM_SINGLE_H

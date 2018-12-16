@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <time.h>
+#include <omp.h>
 
 #include "matrix.h"
 #include "lu/single.h"
 #include "lu/mpi.h"
+#include "lu/openmp.h"
 
 void single_preset_test() {
 	printf("Однопоточный тест для предопределённых значений\n");
@@ -30,7 +32,7 @@ void single_preset_test() {
 void single_random_test() {
 	printf("Однопоточный тест для случайных значений\n");
 	// Создание матрицы случайных значений
-	matrix_t* matrix = matrix_random(5, 5, 0.0, 10.0);
+	matrix_t* matrix = matrix_random(10, 10, 0.0, 10.0);
 	// Вывод матрицы на экран
 	matrix_show(matrix, "A", 0);
 	// Однопоточное LU разложение матрицы
@@ -38,6 +40,48 @@ void single_random_test() {
 	// Вывод матрицы на экран
 	matrix_show(result.L, "L", 0);
 	matrix_show(result.U, "U", 0);
+	matrix_show(matrix_multiply(result.L, result.U), "R", 0);
+	// Очистка значений
+	matrix_delete(matrix);
+	matrix_delete(result.L);
+	matrix_delete(result.U);
+	printf("\n");
+}
+
+void omp_preset_test() {
+	printf("OpenMP тест для предопределённых значений\n");
+	// Создание матрицы с заданными значениями
+	double values[][3] = {{1.0, 3.0, 5.0},
+						  {2.0, 4.0, 7.0},
+						  {1.0, 1.0, 0.0}};
+	matrix_t* matrix = matrix_create(3, 3, (double*) values);
+	// Вывод матрицы на экран
+	matrix_show(matrix, "A", 0);
+	// MPI LU разложение матрицы
+	LU_t result = omp_LU(matrix);
+	// Вывод матрицы на экран
+	matrix_show(result.L, "L", 0);
+	matrix_show(result.U, "U", 0);
+	matrix_show(matrix_multiply(result.L, result.U), "R", 0);
+	// Очистка значений
+	matrix_delete(matrix);
+	matrix_delete(result.L);
+	matrix_delete(result.U);
+	printf("\n");
+}
+
+void omp_random_test() {
+	printf("OpenMP тест для случайных значений\n");
+	// Создание матрицы со случайными значениями
+	matrix_t* matrix = matrix_random(10, 10, 0, 10);
+	// Вывод матрицы на экран
+	matrix_show(matrix, "A", 0);
+	// MPI LU разложение матрицы
+	LU_t result = omp_LU(matrix);
+	// Вывод матрицы на экран
+	matrix_show(result.L, "L", 0);
+	matrix_show(result.U, "U", 0);
+	matrix_show(matrix_multiply(result.L, result.U), "R", 0);
 	// Очистка значений
 	matrix_delete(matrix);
 	matrix_delete(result.L);
@@ -46,7 +90,7 @@ void single_random_test() {
 }
 
 void mpi_preset_test() {
-	printf("MPI Тест для предопределённых значений\n");
+	printf("MPI тест для предопределённых значений\n");
 	// Создание матрицы с заданными значениями
 	double values[][3] = {{1.0, 3.0, 5.0},
 						  {2.0, 4.0, 7.0},
@@ -74,8 +118,12 @@ int main(int argc, char** argv) {
 	single_preset_test();
 	// Однопоточный тест для случайных значений
 	single_random_test();
+	// OpenMP тест для предопределённых значений
+	omp_preset_test();
+	// OpenMP тест для для случайных значений
+	omp_random_test();
 	// MPI тест для предопределённых значений
-	mpi_preset_test();
+//	mpi_preset_test();
 
 	return 0;
 }

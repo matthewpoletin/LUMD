@@ -5,7 +5,6 @@
 #include <matrix.h>
 #include <stdbool.h>
 
-
 #include "matrix.h"
 
 /**
@@ -14,7 +13,7 @@
  * @param n Размер n
  * @return Матрица случайных значений
  */
-matrix_t* matrix_get(size_t m, size_t n) {
+matrix_t* matrix_generate(size_t m, size_t n) {
 	// Создание матрицы
 	matrix_t* matrix = malloc(sizeof(matrix_t));
 	matrix->m = m;
@@ -35,7 +34,7 @@ matrix_t* matrix_zero(matrix_t* matrix) {
 
 matrix_t* matrix_new(size_t m, size_t n) {
 	// Создание матрицы
-	matrix_t* matrix = matrix_get(m, n);
+	matrix_t* matrix = matrix_generate(m, n);
 	if (matrix == NULL) return NULL;
 	// Заполнение матрицы нулями
 	return matrix_zero(matrix);
@@ -43,7 +42,7 @@ matrix_t* matrix_new(size_t m, size_t n) {
 
 matrix_t* matrix_create(size_t m, size_t n, double* values) {
 	// Создание матрицы
-	matrix_t* matrix = matrix_get(m, n);
+	matrix_t* matrix = matrix_generate(m, n);
 	if (matrix == NULL) return NULL;
 	// Заполнение значений
 	for (size_t i = 0; i < m; i++)
@@ -138,7 +137,7 @@ matrix_t* matrix_multiply(matrix_t* a, matrix_t* b) {
 
 matrix_t* matrix_random(size_t m, size_t n, double min, double max) {
 	// Создание матрицы
-	matrix_t* matrix = matrix_get(m, n);
+	matrix_t* matrix = matrix_generate(m, n);
 	if (!matrix) return NULL;
 	// Заполнение значениями
 	for (size_t i = 0; i < matrix->m; i++)
@@ -149,7 +148,7 @@ matrix_t* matrix_random(size_t m, size_t n, double min, double max) {
 
 matrix_t* matrix_identity(size_t m) {
 	// Создание матрицы квадратной матрицы
-	matrix_t* matrix = matrix_get(m, m);
+	matrix_t* matrix = matrix_generate(m, m);
 	if (!matrix) return NULL;
 	// Заполнение значениями
 	for (size_t i = 0; i < m; i++)
@@ -159,7 +158,7 @@ matrix_t* matrix_identity(size_t m) {
 
 matrix_t* matrix_transpose(matrix_t* matrix) {
 	// Создание выходной матрицы
-	matrix_t* transposed = matrix_get(matrix->n, matrix->m);
+	matrix_t* transposed = matrix_generate(matrix->n, matrix->m);
 	if (!transposed)
 		return NULL;
 	// Заполнение значениями
@@ -195,4 +194,18 @@ int matrix_compare_values(matrix_t* a, matrix_t* b) {
 
 int matrix_cmp(matrix_t* a, matrix_t* b) {
 	return matrix_compare_values(a, b);
+}
+
+int matrix_set(matrix_t* matrix, size_t i, size_t j, double value) {
+	// Проверка существования матрицы
+	if (!matrix) return -1;
+	// Установка значения
+	matrix->values[i][j] = value;
+	return 0;
+}
+
+double matrix_get(matrix_t* matrix, size_t i, size_t j) {
+	// Проверка существования матрицы
+	if (!matrix) return -1;
+	return matrix->values[i][j];
 }

@@ -97,4 +97,23 @@ matrix_t* matrix_transpose(matrix_t* matrix);
  */
 int matrix_cmp(matrix_t* a, matrix_t* b);
 
+/**
+ * Установка значения матрицы
+ * @param matrix Матрица
+ * @param i Позиция по m
+ * @param j Позиция по n
+ * @param value Значение
+ * @return Результат
+ */
+int matrix_set(matrix_t* matrix, size_t i, size_t j, double value);
+
+/**
+ * Получение значения матрицы
+ * @param matrix Матрица
+ * @param i Позиция по m
+ * @param j Позиция по n
+ * @return Результат
+ */
+double matrix_get(matrix_t* matrix, size_t i, size_t j);
+
 #endif //LUDM_MATRIX_H
