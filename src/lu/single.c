@@ -3,7 +3,7 @@
 #include <math.h>
 
 // Обмен двух значений
-#define _swap(x, y) { typeof(x) tmp = x; x = y; y = tmp; }
+#define _swap(x, y) { typeof(x) tmp = (x); (x) = (y); (y) = tmp; }
 
 /**
  *
@@ -39,7 +39,7 @@ LU_t single_LU(matrix_t* A) {
 	matrix_t* R = single_matrix_pivot(A);
 	matrix_t* Aprime = matrix_multiply(R, A);
 	//
-	for (int i = 0; i < A->n; i++) {
+	for (int i = 0; i < A->m; i++) {
 		for (int j = 0; j < A->n; j++) {
 			double s;
 			if (j <= i) {

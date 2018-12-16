@@ -34,7 +34,7 @@ matrix_t* matrix_new(size_t m, size_t n);
  * @param n Размер n
  * @return Созданная матрица
  */
-matrix_t* matrix_create(size_t m, size_t n, double values[][n]);
+matrix_t* matrix_create(size_t m, size_t n, double* values);
 
 /**
  * Копирование существующей матрицы
@@ -81,5 +81,20 @@ matrix_t* matrix_random(size_t m, size_t n, double min, double max);
  * @return Единичная матрица
  */
 matrix_t* matrix_identity(size_t m);
+
+/**
+ * Транспонирование матрицы
+ * @param matrix Исходная матрица
+ * @return Транспонированная матрица
+ */
+matrix_t* matrix_transpose(matrix_t* matrix);
+
+/**
+ * Численное сравнение двух матриц
+ * @param a Первая матрица
+ * @param b Вторая матрица
+ * @return Результат сравнения
+ */
+int matrix_cmp(matrix_t* a, matrix_t* b);
 
 #endif //LUDM_MATRIX_H
